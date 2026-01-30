@@ -1,0 +1,22 @@
+@using StarWars.ViewModels
+@model PeliculaDetallesVM
+
+<h1>Episodio @Model.Episodio: @Model.Titulo - @Model.AnioEstreno</h1>
+<p>@Model.Anio - @Model.Sinopsis</p>
+<span>@Model.Duracion minutos</span>
+<section>
+  <p> Presupuesto: @Model.Presupuesto.ToString("C") USD</p>
+  <p> Recaudado: @Model.Recaudado.ToString("C") USD </p>
+</section>
+<img class="img-fluid" src="@Model.Poster" alt="Poster de la pelicula @Model.Titulo">
+
+<h2>Personajes</h2>
+<section>
+
+  @foreach (PeliculaPersonajeVM personaje in Model.Personajes){
+    <article>
+      <img class="img-fluid" src="@personaje.Foto" alt="Foto de @personaje.Nombre">
+      <span>@personaje.Nombre</span>
+    </article>
+  }
+</section>

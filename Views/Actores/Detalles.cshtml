@@ -1,0 +1,25 @@
+@using StarWars.ViewModels
+@model ActorDetallesVM
+
+<div class="d-flex">
+
+  <section class="col-3 p-3">
+  <h1>@Model.Nombre @Model.Apellido</h1>
+  <img class="img-fluid" src="@Model.Foto" alt="Foto de @Model.Nombre @Model.Apellido" style="width: 400px; scale: 1 1;">
+  </section>
+
+  <section class="d-flex col-9 flex-wrap">
+    @foreach (ActorAparicionVM aparicion in @Model.Apariciones)
+    {
+      <article class="col-3 p-2">
+        <h2 class="fs-5">@aparicion.NombrePelicula</h2>
+
+        <h3 class="fs-6 fw-light">
+          <span class="fw-bold"> @aparicion.NombrePersonaje -</span>
+          @aparicion.Descripcion
+        </h3>
+        <img class="img-fluid" src="@aparicion.Poster" alt="poster de la pelicula @aparicion.NombrePelicula">
+      </article>
+    }
+  </section>
+</div>

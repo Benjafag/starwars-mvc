@@ -1,0 +1,30 @@
+@using StarWars.ViewModels
+@model List<ActorIndexVM>
+<div class="text-center d-flex flex-column align-items-center">
+  <h1 class="display-4">Bienvenido</h1>
+  <section class="w-50  ">
+    @foreach (ActorIndexVM actor in Model){
+      <article class="d-flex flex-wrap my-3 bg-secondary p-3 border border-dark border-2 rounded-4">
+        <div class="col-4">
+          <a asp-controller="Actores" asp-action="Detalles" asp-route-id="@actor.IdActor" class="text-dark text-decoration-none">
+            <h2 class="fs-6"> @actor.Nombre @actor.Apellido</h2>
+            <img src="@actor.Foto" alt="@actor.Nombre" style="width: 200px; height: 200px; object-fit: cover; object-position: center;">
+          </a>
+        </div>
+
+        <div class="col-8 d-flex flex-column justify-content-center p-2">
+        @if (actor.Apariciones != null ){
+          foreach(ActorAparicionVM ap in actor.Apariciones){
+            <div class="mb-4">
+              <p class="mb-0 fw-bold">
+                 @ap.NombrePelicula (@ap.NombrePersonaje)
+              </p>
+              @* <span> @ap.Descripcion </span> *@
+            </div>
+          }
+        }
+        </div>
+      </article>
+    }
+  </section>
+</div>

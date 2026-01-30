@@ -1,0 +1,17 @@
+@using StarWars.ViewModels
+@model List<PeliculaIndexVM>
+<section class="d-flex justify-content-center">
+
+  <section class="d-flex flex-wrap w-75">  
+    @foreach (PeliculaIndexVM pelicula in Model){
+      <article class="col-4 px-2 py-4 text-center" style="max-height: 500px;">
+
+        <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@pelicula.IdPelicula">
+          <h2 class="fs-5">@pelicula.Titulo (@pelicula.Anio)</h2>
+          <img class="img-fluid h-100" src="@pelicula.Poster" alt="poster de la pelicula @pelicula.Titulo" style="object-fit: conver;" >
+        </a>
+
+      </article>
+    }
+  </section>
+</section>
