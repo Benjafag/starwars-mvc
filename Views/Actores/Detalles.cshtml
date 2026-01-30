@@ -1,25 +1,90 @@
 @using StarWars.ViewModels
 @model ActorDetallesVM
+@{
+  ViewData["Title"] = $"{Model?.Nombre} {Model.Apellido}";
+}
 
-<div class="d-flex">
+<div class="py-4 sw-page">
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <a onclick="history.back()"
+       class="btn btn-outline-warning btn-sm sw-btn">
+      ← Volver
+    </a>
+    <span class="badge rounded-pill text-bg-dark border border-warning-subtle sw-badge">
+      Actor
+    </span>
+  </div>
 
-  <section class="col-3 p-3">
-  <h1>@Model.Nombre @Model.Apellido</h1>
-  <img class="img-fluid" src="@Model.Foto" alt="Foto de @Model.Nombre @Model.Apellido" style="width: 400px; scale: 1 1;">
-  </section>
+  <div class="row g-4">
+    <!-- Col izquierda: perfil -->
+    <aside class="col-12 col-lg-4">
+      <div class="card sw-card shadow-sm">
+        <div class="card-body text-center">
+          <img class="rounded-circle border sw-avatar mb-3"
+               src="@Model.Foto"
+               alt="Foto de @Model.Nombre @Model.Apellido"
+               style="width: 220px; height: 220px; object-fit: cover; object-position: center;
+               view-transition-name: actor-imagen-@Model.IdActor;" />
 
-  <section class="d-flex col-9 flex-wrap">
-    @foreach (ActorAparicionVM aparicion in @Model.Apariciones)
-    {
-      <article class="col-3 p-2">
-        <h2 class="fs-5">@aparicion.NombrePelicula</h2>
+          <h1 class="h3 mb-1 sw-title">@Model.Nombre @Model.Apellido</h1>
+          <p class="text-white fw-light mb-3">Apariciones: @Model.Apariciones?.Count()</p>
 
-        <h3 class="fs-6 fw-light">
-          <span class="fw-bold"> @aparicion.NombrePersonaje -</span>
-          @aparicion.Descripcion
-        </h3>
-        <img class="img-fluid" src="@aparicion.Poster" alt="poster de la pelicula @aparicion.NombrePelicula">
-      </article>
-    }
-  </section>
+          <div class="d-grid gap-2">
+            <a class="btn btn-warning sw-btn"
+               href="#apariciones">
+              Ver apariciones
+            </a>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Col derecha: apariciones -->
+    <section class="col-12 col-lg-8" id="apariciones">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h2 class="h5 mb-2 text-warning sw-section-title">Apariciones</h2>
+      </div>
+
+      <div class="row g-3">
+        @foreach (ActorAparicionVM aparicion in Model.Apariciones)
+        {
+          <div class="col-12 col-md-6 col-xl-4">
+            <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@aparicion.IdPelicula">
+
+            <article class="card sw-card sw-hover h-100" style="view-transition-name: contenedor-@aparicion.IdPelicula;">
+              <img class="card-img-top sw-poster"
+                   src="@aparicion.Poster"
+                   alt="Poster de @aparicion.NombrePelicula" 
+                   style="view-transition-name: poster-@aparicion.IdPelicula;"/>
+
+              <div class="card-body">
+                <h3 
+                class="h6 mb-1 sw-movie"
+                style="view-transition-name: titulo-@aparicion.IdPelicula;"
+                >@aparicion.NombrePelicula</h3>
+
+                <div class="small">
+                  <span class="badge text-bg-warning sw-pill">@aparicion.NombrePersonaje</span>
+                </div>
+
+                <p class="text-white fw-light mt-2 mb-0 sw-desc">
+                  @aparicion.Descripcion
+                </p>
+              </div>
+
+              <div class="card-footer bg-transparent border-0 pt-0">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-white small">Ver más</span>
+                  <span class="sw-arrow">→</span>
+                </div>
+              </div>
+            </article>
+            </a>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
 </div>
+

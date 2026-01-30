@@ -1,17 +1,41 @@
 @using StarWars.ViewModels
 @model List<PeliculaIndexVM>
-<section class="d-flex justify-content-center">
 
-  <section class="d-flex flex-wrap w-75">  
-    @foreach (PeliculaIndexVM pelicula in Model){
-      <article class="col-4 px-2 py-4 text-center" style="max-height: 500px;">
+@{
+  ViewData["Title"] = "Peliculas";
+}
 
-        <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@pelicula.IdPelicula">
-          <h2 class="fs-5">@pelicula.Titulo (@pelicula.Anio)</h2>
-          <img class="img-fluid h-100" src="@pelicula.Poster" alt="poster de la pelicula @pelicula.Titulo" style="object-fit: conver;" >
-        </a>
+<div class="sw-page p-3 p-md-4">
+  <div class="text-center mb-4">
+    <h1 class="display-6 fw-bold sw-title mb-1">Holocron de Películas</h1>
+    <p class="text-muted mb-0">Explorá la filmografía</p>
+  </div>
 
-      </article>
+  <div class="row g-3">
+    @foreach (PeliculaIndexVM pelicula in Model)
+    {
+      <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+        <article class="card sw-card sw-hover h-100 overflow-hidden" style="view-transition-name: contenedor-@pelicula.IdPelicula;">
+          <a asp-controller="Peliculas"
+             asp-action="Detalles"
+             asp-route-id="@pelicula.IdPelicula"
+             class="text-decoration-none text-reset">
+
+            <img src="@pelicula.Poster"
+                 alt="Poster de @pelicula.Titulo"
+                 class="sw-poster img-fluid" 
+                 style="view-transition-name: poster-@pelicula.IdPelicula;"/>
+
+            <div class="card-body">
+              <h2 class="h6 mb-1 sw-title text-truncate" style="view-transition-name: titulo-@pelicula.IdPelicula;">@pelicula.Titulo</h2>
+              <div class="d-flex align-items-center justify-content-between">
+                <span class="text-muted small">@pelicula.Anio</span>
+                <span class="text-warning small">Ver detalles →</span>
+              </div>
+            </div>
+          </a>
+        </article>
+      </div>
     }
-  </section>
-</section>
+  </div>
+</div>

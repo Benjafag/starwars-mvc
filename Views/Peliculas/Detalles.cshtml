@@ -1,22 +1,105 @@
 @using StarWars.ViewModels
 @model PeliculaDetallesVM
 
-<h1>Episodio @Model.Episodio: @Model.Titulo - @Model.AnioEstreno</h1>
-<p>@Model.Anio - @Model.Sinopsis</p>
-<span>@Model.Duracion minutos</span>
-<section>
-  <p> Presupuesto: @Model.Presupuesto.ToString("C") USD</p>
-  <p> Recaudado: @Model.Recaudado.ToString("C") USD </p>
-</section>
-<img class="img-fluid" src="@Model.Poster" alt="Poster de la pelicula @Model.Titulo">
+@{
+  ViewData["Title"] = Model.Titulo;
+}
 
-<h2>Personajes</h2>
-<section>
+<div class="sw-page p-3 p-md-4" style="view-transition-name: contenedor-@Model.IdPelicula;">
 
-  @foreach (PeliculaPersonajeVM personaje in Model.Personajes){
-    <article>
-      <img class="img-fluid" src="@personaje.Foto" alt="Foto de @personaje.Nombre">
-      <span>@personaje.Nombre</span>
-    </article>
-  }
-</section>
+  <!-- Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <a onclick="history.back()"
+       class="btn btn-outline-warning btn-sm sw-btn">
+      ← Volver
+    </a>
+
+    <span class="badge rounded-pill text-bg-dark border border-warning-subtle sw-badge">
+      Episodio @Model.Episodio
+    </span>
+  </div>
+
+  <div class="row g-4 align-items-start">
+    <!-- Poster -->
+    <aside class="col-12 col-lg-4">
+      <article class="card sw-card overflow-hidden shadow-sm">
+        <img class="w-100"
+             src="@Model.Poster"
+             alt="Poster de la película @Model.Titulo"
+             style="aspect-ratio: 2 / 3; object-fit: cover;
+             view-transition-name: poster-@Model.IdPelicula;" />
+      </article>
+    </aside>
+
+    <!-- Info -->
+    <section class="col-12 col-lg-8">
+      <header class="mb-3">
+        <h1 class="display-6 fw-bold mb-1 sw-title" style="view-transition-name: titulo-@Model.IdPelicula;">
+          Episodio @Model.Episodio: @Model.Titulo
+        </h1>
+        <div class="text-muted">
+          <span class="me-2">@Model.AnioEstreno</span>
+          <span class="mx-2">•</span>
+          <span>@Model.Duracion min</span>
+        </div>
+      </header>
+
+      <div class="card sw-card mb-3">
+        <div class="card-body">
+          <h2 class="h6 text-uppercase text-muted mb-2">Sinopsis</h2>
+          <p class="mb-0 sinopsis">@Model.Sinopsis</p>
+        </div>
+      </div>
+
+      <div class="row g-3">
+        <div class="col-12 col-md-6">
+          <div class="card sw-card h-100">
+            <div class="card-body">
+              <h3 class="h6 text-uppercase text-muted mb-2">Presupuesto</h3>
+              <div class="fs-5 fw-semibold text-warning">
+                @Model.Presupuesto.ToString("C") USD
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+          <div class="card sw-card h-100">
+            <div class="card-body">
+              <h3 class="h6 text-uppercase text-muted mb-2">Recaudación</h3>
+              <div class="fs-5 fw-semibold text-info">
+                @Model.Recaudado.ToString("C") USD
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Personajes -->
+  <hr class="border-warning-subtle my-4" />
+
+  <div class="d-flex align-items-center justify-content-between mb-3">
+    <h2 class="h5 mb-0 text-warning-emphasis sw-section-title">Personajes</h2>
+    <span class="text-muted small">@(@Model.Personajes?.Count() ?? 0)</span>
+  </div>
+
+  <div class="row g-3">
+    @foreach (PeliculaPersonajeVM personaje in Model.Personajes)
+    {
+      <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+        <article class="card sw-card sw-hover h-100 text-center">
+          <div class="card-body p-3 d-flex flex-column align-items-center">
+            <img src="@personaje.Foto"
+                 alt="Foto de @personaje.Nombre"
+                 class="rounded-circle border shadow-sm mb-2"
+                 style="width: 84px; height: 84px; object-fit: cover;" />
+            <span class="small fw-semibold">@personaje.Nombre</span>
+          </div>
+        </article>
+      </div>
+    }
+  </div>
+
+</div>
