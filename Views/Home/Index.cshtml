@@ -1,9 +1,87 @@
 ﻿@using System.Security.Cryptography
 @using Microsoft.EntityFrameworkCore
+@model List<BusquedaItem>
+
 @{
   ViewData["Title"] = "Home Page";
+  var q = Context.Request.Query["query"].ToString(); // obtener query param de url
+  @* Console.WriteLine(Context.Request.Path); obtener path de la url *@
 }
-<div class="text-center d-flex flex-column align-items-center">
-  <h1 class="display-4">Bienvenido</h1>
-  <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="sw-page p-3 p-md-4">
+
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h1 class="display-6 fw-bold sw-title mb-1">Archivo Galáctico</h1>
+    <p class="text-muted mb-0">Buscá personajes, actores, planetas, lo que sea…</p>
+  </div>
+
+  <!-- Busqueda -->
+  <form asp-action="Index" method="get" class="mb-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="input-group input-group-lg sw-card overflow-hidden">
+          <span class="input-group-text bg-transparent border-0 text-warning">⌕</span>
+          <input name="query"
+                 type="text"
+                 class="form-control bg-transparent border-0 text-light"
+                 placeholder="Buscar en la galaxia…"
+                 autocomplete="off" 
+                 value="@q"/>
+          <button class="btn btn-warning sw-btn" type="submit">
+            Buscar
+          </button>
+        </div>
+        <div class="form-text text-muted mt-2">
+          Tip: probá con nombres, categorías o títulos.
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!-- Resultados -->
+  @if (Model != null && Model.Any())
+  {
+    <div class="row g-3">
+      @foreach (BusquedaItem item in Model)
+      {
+        <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+          <article class="card sw-card sw-hover h-100 overflow-hidden">
+            <div class="ratio ratio-4x3 card-index" >
+              <img src="@item.Foto"
+                   alt="@item.Nombre"
+                   class="w-100 h-100"
+                   style="object-fit: cover;
+                   object-position: top;" />
+            </div>
+
+            <div class="card-body">
+              <div class="d-flex align-items-start justify-content-between gap-2">
+                <h2 class="h6 mb-1 sw-title text-truncate">@item.Nombre</h2>
+                <span class="badge text-bg-dark border border-warning-subtle">
+                  @item.Categoria.Substring(0,1).ToUpper()@item.Categoria.Substring(1)
+                </span>
+              </div>
+
+              <div class="mt-2 d-flex align-items-center justify-content-between">
+                <span class="text-muted small">Registro</span>
+                <span class="text-warning small">Ver →</span>
+              </div>
+            </div>
+          </article>
+        </div>
+      }
+    </div>
+  }
+  else
+  {
+    <div class="text-center py-5">
+      <div class="card sw-card mx-auto" style="max-width: 520px;">
+        <div class="card-body">
+          <h2 class="h5 mb-2">Sin resultados</h2>
+          <p class="text-muted mb-0">Probá otra búsqueda o revisá la ortografía.</p>
+        </div>
+      </div>
+    </div>
+  }
+
 </div>

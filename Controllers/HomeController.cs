@@ -5,16 +5,23 @@ using StarWars.Models;
 namespace StarWars.Controllers;
 public class HomeController : Controller
 {
+  private StarWarsContext _context;
   private readonly ILogger<HomeController> _logger;
 
   public HomeController(ILogger<HomeController> logger)
   {
     _logger = logger;
+    _context = new StarWarsContext();
   }
 
-  public IActionResult Index()
+  public IActionResult Index(string query)
   {
-    return View();
+    List<BusquedaItem> items;
+    if (string.IsNullOrEmpty(query))
+      items =  _context.Uniones.ToList();
+    else
+      items =  _context.Uniones.Where(item => item.Nombre.ToLower().Contains(query.ToLower())).ToList();
+    return View(items);
   }
 
   public IActionResult Privacy()
