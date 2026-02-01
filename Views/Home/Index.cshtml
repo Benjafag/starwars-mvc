@@ -1,11 +1,13 @@
 ﻿@using System.Security.Cryptography
 @using Microsoft.EntityFrameworkCore
+@using Microsoft.VisualBasic
 @model List<BusquedaItem>
 
 @{
   ViewData["Title"] = "Home Page";
   var q = Context.Request.Query["query"].ToString(); // obtener query param de url
   @* Console.WriteLine(Context.Request.Path); obtener path de la url *@
+
 }
 <div class="sw-page p-3 p-md-4">
 
@@ -46,6 +48,8 @@
       @foreach (BusquedaItem item in Model)
       {
         <div class="col-12 col-sm-6 col-lg-4 col-xxl-3">
+          <a asp-controller="@item.Controlador()"  asp-action="Detalles" asp-route-id="@item.Id" >
+
           <article class="card sw-card sw-hover h-100 overflow-hidden">
             <div class="ratio ratio-4x3 card-index" >
               <img src="@item.Foto"
@@ -69,6 +73,7 @@
               </div>
             </div>
           </article>
+          </a>
         </div>
       }
     </div>

@@ -20,6 +20,7 @@ public class ActoresController : Controller
     .ThenInclude(ap => ap.IdPeliculaNavigation)
     .Include(a => a.Apariciones)
     .ThenInclude(ap => ap.IdPersonajeNavigation)
+    .OrderBy(a => a.Nombre)
     .Select(a => new ActorIndexVM(a))
     .ToList()
   );

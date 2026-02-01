@@ -21,6 +21,7 @@ public class PeliculasController : Controller
     .Include(p => p.Apariciones)
     .ThenInclude(a => a.IdPersonajeNavigation)
     .FirstOrDefault(p => p.IdPelicula == id);
+    resultado.Apariciones =  resultado.Apariciones.OrderBy(ap => ap.IdPersonajeNavigation.Nombre).ToList();
     return resultado != null ? View(new PeliculaDetallesVM(resultado)) : RedirectToAction("Index");
   }
 }

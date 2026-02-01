@@ -370,14 +370,16 @@ public partial class StarWarsContext : DbContext
     OnModelCreatingPartial(modelBuilder);
 
     modelBuilder.Entity<BusquedaItem>(entity =>
-{
-    entity.HasNoKey();          // view = keyless
-    entity.ToView("uniones");
+    {
+      entity.HasNoKey();           // sigue siendo VIEW sin clave
+      entity.ToView("uniones");
 
-    entity.Property(e => e.Nombre).HasColumnName("nombre");
-    entity.Property(e => e.Foto).HasColumnName("foto");
-    entity.Property(e => e.Categoria).HasColumnName("categoria");
-});
+      entity.Property(e => e.Id).HasColumnName("id");
+      entity.Property(e => e.Nombre).HasColumnName("nombre");
+      entity.Property(e => e.Foto).HasColumnName("foto");
+      entity.Property(e => e.Categoria).HasColumnName("categoria");
+    });
+
 
   }
 
