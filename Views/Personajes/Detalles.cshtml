@@ -1,0 +1,122 @@
+@using StarWars.ViewModels
+@model PersonajeDetallesVM
+
+<div class="sw-page p-3 p-md-4">
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <a onclick="history.back()" class="btn btn-outline-warning btn-sm sw-btn">
+      ← Volver
+    </a>
+
+    @if (Model.SensibleALaFuerza)
+    {
+      <span class="badge rounded-pill text-bg-warning text-dark">
+        Sensible a la Fuerza
+      </span>
+    }
+    else
+    {
+      <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
+        No sensible a la Fuerza
+      </span>
+    }
+  </div>
+
+  <div class="row g-4 align-items-start">
+    <!-- Foto -->
+    <aside class="col-12 col-lg-3">
+      <article class="card sw-card overflow-hidden shadow-sm">
+        <img src="@Model.Foto" alt="Foto de @Model.Nombre" class="w-100"
+          style="aspect-ratio: 9 / 12; object-fit: cover;" />
+      </article>
+    </aside>
+
+    <!-- Info -->
+    <section class="col-12 col-lg-9 px-4">
+      <header class="mb-3">
+        <h1 class="display-6 fw-bold mb-1 sw-title">@Model.Nombre</h1>
+
+        <div class="d-flex flex-wrap gap-2 align-items-center">
+          <span class="badge text-bg-dark border border-warning-subtle">
+            @Model.Genero
+          </span>
+
+          <a asp-controller="Especies" asp-action="Detalles" asp-route-id="@Model.IdEspecie"
+            class="badge text-bg-dark border border-info-subtle text-decoration-none sw-link">
+            @Model.Especie
+          </a>
+
+          <a asp-controller="Planetas" asp-action="Detalles" asp-route-id="@Model.IdPlanetaOrigen"
+            class="badge text-bg-dark border border-warning-subtle text-decoration-none sw-link">
+            @Model.PlanetaOrigen
+          </a>
+        </div>
+      </header>
+
+      <div class="card sw-card">
+        <div class="card-body p-4">
+          <h2 class="h6 text-uppercase text-muted mb-2">Biografía</h2>
+          <p class="mb-0" style="white-space: pre-line;">@Model.Biografia</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <hr class="border-warning-subtle my-4" />
+  <!-- apariciones -->
+  <section class="col-12" id="apariciones">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+      <h2 class="h5 mb-2 text-warning sw-section-title">Apariciones</h2>
+    </div>
+
+    <div class="row g-3">
+      @foreach (PersonajeAparicionVM aparicion in Model.Apariciones)
+      {
+        <div class="col-12 col-md-6 col-xl-3">
+          <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@aparicion.IdPelicula">
+
+            <article class="card sw-card sw-minihover h-100 overflow-hidden"
+              style="view-transition-name: contenedor-@aparicion.IdPelicula;">
+
+              <div class="position-relative">
+                <img class="card-img-top sw-poster" src="@aparicion.Poster" alt="Poster de @aparicion.NombrePelicula"
+                  style="view-transition-name: poster-@aparicion.IdPelicula;" />
+
+                <!-- foto del personaje en ESA pelicula -->
+                <div class="sw-cameo d-flex align-items-center gap-2">
+                  <img src="@aparicion.Foto" alt="Aparición de @Model.Nombre en @aparicion.NombrePelicula"
+                    class="sw-cameo-img" />
+                  <div class="sw-cameo-text">
+                    <div class="sw-cameo-title">@Model.Nombre</div>
+                    <div class="sw-cameo-sub">@aparicion.NombrePelicula</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="card-body">
+                <h3 class="h6 mb-1 sw-movie" style="view-transition-name: titulo-@aparicion.IdPelicula;">
+                  @aparicion.NombrePelicula
+                </h3>
+
+                <p class="text-white fw-light mt-2 mb-0 sw-desc">
+                  @aparicion.Descripcion
+                </p>
+              </div>
+
+              <div class="card-footer bg-transparent border-0 pt-0">
+                <div class="d-flex align-items-center justify-content-between">
+                  <span class="text-white small">Ver más</span>
+                  <span class="sw-arrow">→</span>
+                </div>
+              </div>
+            </article>
+
+          </a>
+        </div>
+      }
+    </div>
+  </section>
+</div>
+
+</div>

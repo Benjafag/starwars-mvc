@@ -99,6 +99,15 @@ a:hover {
   border-color: rgba(255, 193, 7, .45);
 }
 
+.sw-minihover{
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+}
+.sw-minihover:hover{
+  /* transform: translateY(-6px); */
+  box-shadow: 0 12px 30px rgba(0,0,0,.45);
+  border-color: rgba(255, 193, 7, .45);
+}
+
 /* Botones */
 .sw-btn{
   transition: transform .12s ease, box-shadow .12s ease;
@@ -218,4 +227,93 @@ a:hover {
 #form-buscar:focus {
   box-shadow: none;
   outline: none;
+}
+
+/* Chip cameo encima del poster */
+.sw-cameo{
+  position: absolute;
+  left: 12px;
+  bottom: 12px;
+  padding: 8px 10px;
+  border-radius: 14px;
+  background: rgba(10, 14, 24, .75);
+  border: 1px solid rgba(255, 193, 7, .28);
+  backdrop-filter: blur(5px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.45);
+  max-width: calc(100% - 24px);
+}
+
+.sw-cameo{
+  transition: transform .4s ease, box-shadow .22s ease;
+  transform-origin: bottom left; /* ← clave */
+}
+
+/* .sw-cameo:hover{
+  transform: scale(1.3);
+  box-shadow: 0 16px 40px rgba(0,0,0,.55);
+  z-index: 10; 
+} 
+*/
+
+
+/* Foto mini */
+.sw-cameo-img{
+  width: 50px;
+  height: 50px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 193, 7, .35);
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, .12);
+  object-position: top;
+}
+
+/* Textito */
+.sw-cameo-text{
+  min-width: 0; /* para que funcione ellipsis */
+}
+.sw-cameo-title{
+  font-size: .85rem;
+  font-weight: 700;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sw-cameo-sub{
+  font-size: .72rem;
+  color: rgba(233, 236, 239, .75);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+ /* Base: preparamos las capas */
+.sw-card{
+  perspective: 800px;
+}
+
+.sw-poster{
+  transition: transform .35s ease;
+}
+
+.sw-cameo{
+  transition: transform .35s ease;
+}
+/* Hover parallax */
+ 
+.sw-minihover:hover .sw-poster{
+  transform: scale(1.05) translateY(-5px) translateX(-4px);
+}
+
+.sw-minihover:hover .sw-cameo{
+  transform: translateY(6px) translateX(4px) scale(1.2);
+  box-shadow: 0 16px 40px rgba(0,0,0,.55);
+  z-index: 10; 
+}
+
+::selection {
+  background-color: rgb(255, 193, 7); /* Change the highlight background to a light orange */
+  color: #000000;              /* Change the selected text color to white */
+  text-shadow: none;       /* Remove any text shadow for better readability */
 }
