@@ -84,14 +84,16 @@
                   style="view-transition-name: poster-@aparicion.IdPelicula;" />
 
                 <!-- foto del personaje en ESA pelicula -->
-                <div class="sw-cameo d-flex align-items-center gap-2">
-                  <img src="@aparicion.Foto" alt="Aparición de @Model.Nombre en @aparicion.NombrePelicula"
-                    class="sw-cameo-img" />
-                  <div class="sw-cameo-text">
-                    <div class="sw-cameo-title">@Model.Nombre</div>
-                    <div class="sw-cameo-sub">@aparicion.NombrePelicula</div>
+                <a href="/Personajes/Detalles/@Model.IdPersonaje/@aparicion.IdPelicula" style="text-decoration: none; color: #fff;">
+                  <div class="sw-cameo d-flex align-items-center gap-2">
+                    <img src="@aparicion.Foto" alt="Aparición de @Model.Nombre en @aparicion.NombrePelicula"
+                      class="sw-cameo-img" />
+                    <div class="sw-cameo-text">
+                      <div class="sw-cameo-title">@Model.Nombre</div>
+                      <div class="sw-cameo-sub">@aparicion.NombrePelicula</div>
+                    </div>
                   </div>
-                </div>
+                </a>
               </div>
 
               <div class="card-body">

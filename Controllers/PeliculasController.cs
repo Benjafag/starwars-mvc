@@ -13,15 +13,19 @@ public class PeliculasController : Controller
     _context = new StarWarsContext();
   }
 
-  public IActionResult Index () => View(_context.Peliculas.Select(p => new PeliculaIndexVM(p)).ToList());
+  public IActionResult Index () => View(_context.Peliculas?.Select(p => new PeliculaIndexVM(p)).ToList());
 
   public IActionResult Detalles(int id)
   {
-    Pelicula resultado = _context.Peliculas
+    Pelicula? resultado = _context.Peliculas?
     .Include(p => p.Apariciones)
     .ThenInclude(a => a.IdPersonajeNavigation)
     .FirstOrDefault(p => p.IdPelicula == id);
-    resultado.Apariciones =  resultado.Apariciones.OrderBy(ap => ap.IdPersonajeNavigation.Nombre).ToList();
-    return resultado != null ? View(new PeliculaDetallesVM(resultado)) : RedirectToAction("Index");
+    if (resultado is not null)
+    {
+      resultado.Apariciones =  resultado.Apariciones.OrderBy(ap => ap.IdPersonajeNavigation?.Nombre).ToList();
+      return View(new PeliculaDetallesVM(resultado));
+    }
+    return  RedirectToAction("Index");
   }
 }

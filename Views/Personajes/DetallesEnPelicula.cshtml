@@ -1,0 +1,173 @@
+@using StarWars.ViewModels
+@model AparicionVM
+
+@{
+  ViewData["Title"] = "Aparición";
+}
+
+<div class="sw-page p-3 p-md-4">
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <a onclick="history.back()" class="btn btn-outline-warning btn-sm sw-btn">
+      ← Volver
+    </a>
+
+    <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
+      Registro de Aparición
+    </span>
+  </div>
+
+  <div class="row g-4 align-items-start">
+    <!-- Foto aparición -->
+    <aside class="col-12 col-lg-4">
+      <article class="card sw-card overflow-hidden shadow-sm">
+        <img src="@Model.Foto"
+             alt="Foto de @Model.NombrePersonaje en @Model.TituloPelicula"
+             class="w-100"
+             style="aspect-ratio: 3 / 4; object-fit: cover;" />
+      </article>
+
+      <!-- Badges rápidos -->
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        @if (!string.IsNullOrWhiteSpace(Model.Estado))
+        {
+          <span class="badge text-bg-dark border border-warning-subtle">@Model.Estado</span>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.Rango))
+        {
+          <span class="badge text-bg-dark border border-info-subtle">@Model.Rango</span>
+        }
+        @if (!string.IsNullOrWhiteSpace(Model.Rol))
+        {
+          <span class="badge text-bg-warning text-dark">@Model.Rol</span>
+        }
+      </div>
+    </aside>
+
+    <!-- Info principal -->
+    <section class="col-12 col-lg-8">
+      <header class="mb-3">
+        <h1 class="display-6 fw-bold mb-1 sw-title">@Model.NombrePersonaje</h1>
+
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          @if (Model.Alias != "Sin alias")
+          {
+            <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
+              Alias: @Model.Alias
+            </span>
+          }
+
+          @if (Model.Edad > 0)
+          {
+            <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
+              Edad: @Model.Edad años
+            </span>
+          }
+
+          @if (Model.Altura > 0)
+          {
+            <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
+              Altura: @Model.Altura cm
+            </span>
+          }
+
+          @if (Model.Peso > 0)
+          {
+            <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
+              Peso: @Model.Peso kg
+            </span>
+          }
+        </div>
+
+        <div class="text-muted mt-2">
+          En <span class="text-warning">@Model.TituloPelicula</span>
+        </div>
+      </header>
+
+      <!-- Descripción -->
+      <div class="card sw-card mb-3">
+        <div class="card-body">
+          <h2 class="h6 text-uppercase text-muted mb-2">Descripción</h2>
+          <p class="mb-0" style="white-space: pre-line;">@Model.Descripcion</p>
+        </div>
+      </div>
+
+      <!-- Entidades relacionadas -->
+      <div class="row g-3">
+        <!-- Película -->
+        <div class="col-12 col-md-6">
+          <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@Model.IdPelicula"
+             class="text-decoration-none text-reset d-block h-100">
+            <div class="card sw-card sw-hover h-100 overflow-hidden">
+              <div class="d-flex">
+                <img src="@Model.PosterPelicula"
+                     alt="Poster de @Model.TituloPelicula"
+                     style="width: 90px; height: 120px; object-fit: cover;" />
+                <div class="card-body py-3  d-flex flex-column justify-content-center">
+                  <div class="text-muted small text-uppercase">Película</div>
+                  <div class="fw-semibold">@Model.TituloPelicula</div>
+                  <div class="text-warning small mt-1">Ver detalles →</div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Actor -->
+        <div class="col-12 col-md-6">
+          <a asp-controller="Actores" asp-action="Detalles" asp-route-id="@Model.IdActor"
+             class="text-decoration-none text-reset d-block h-100">
+            <div class="card sw-card sw-hover h-100 overflow-hidden d-flex justify-content-center">
+              <div class="d-flex align-items-center gap-3 p-3">
+                <img src="@Model.FotoActor"
+                     alt="Foto de @Model.NombreActor"
+                     class="rounded-circle border"
+                     style="width: 64px; height: 64px; object-fit: cover;" />
+                <div class="flex-grow-1">
+                  <div class="text-muted small text-uppercase">Actor</div>
+                  <div class="fw-semibold">@Model.NombreActor</div>
+                  <div class="text-warning small mt-1">Ver detalles →</div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Personaje -->
+        <div class="col-12 col-md-6">
+          <a asp-controller="Personajes" asp-action="Detalles" asp-route-id="@Model.IdPersonaje"
+             class="text-decoration-none text-reset d-block h-100">
+            <div class="card sw-card sw-hover h-100">
+              <div class="card-body">
+                <div class="text-muted small text-uppercase">Personaje</div>
+                <div class="fw-semibold">@Model.NombrePersonaje</div>
+                <div class="text-warning small mt-1">Ver detalles →</div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        <!-- Facción -->
+        <div class="col-12 col-md-6">
+          <a asp-controller="Facciones" asp-action="Detalles" asp-route-id="@Model.IdFaccion"
+             class="text-decoration-none text-reset d-block h-100">
+            <div class="card sw-card sw-hover h-100 overflow-hidden">
+              <div class="d-flex align-items-center gap-3 p-3">
+                <img src="@Model.LogoFaccion"
+                     alt="Logo de @Model.NombreFaccion"
+                     style="width: 64px; height: 64px; object-fit: cover; border-radius: 14px;" />
+                <div class="flex-grow-1">
+                  <div class="text-muted small text-uppercase">Facción</div>
+                  <div class="fw-semibold">@Model.NombreFaccion</div>
+                  <div class="text-warning small mt-1">Ver detalles →</div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</div>

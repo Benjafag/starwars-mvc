@@ -1,7 +1,7 @@
 @using StarWars.ViewModels
 @model ActorDetallesVM
 @{
-  ViewData["Title"] = $"{Model?.Nombre} {Model.Apellido}";
+  ViewData["Title"] = $"{Model.Nombre} {Model.Apellido}";
 }
 
 <div class="py-4 sw-page">
@@ -47,6 +47,7 @@
       </div>
 
       <div class="row g-3">
+      @if (Model.Apariciones is not null)
         @foreach (ActorAparicionVM aparicion in Model.Apariciones)
         {
           <div class="col-12 col-md-6 col-xl-4">

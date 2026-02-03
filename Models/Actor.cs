@@ -17,7 +17,7 @@ public partial class Actor
 
   public string Genero { get; set; } = null!;
 
-  public string Foto { get; set; }
+  public string? Foto { get; set; }
 
   public virtual ICollection<Aparicion> Apariciones { get; set; } = new List<Aparicion>();
 }

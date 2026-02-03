@@ -16,11 +16,11 @@ public class HomeController : Controller
 
   public IActionResult Index(string query)
   {
-    List<BusquedaItem> items;
+    List<BusquedaItem>? items;
     if (string.IsNullOrEmpty(query))
-      items =  _context.Uniones.ToList();
+      items =  _context.Uniones?.ToList();
     else
-      items =  _context.Uniones.Where(item => item.Nombre.ToLower().Contains(query.ToLower())).ToList();
+      items =  _context.Uniones?.Where(item => item.Nombre.ToLower().Contains(query.ToLower())).ToList();
     return View(items);
   }
 

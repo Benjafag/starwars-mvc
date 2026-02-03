@@ -7,15 +7,12 @@ using StarWars.ViewModels;
 namespace StarWars.Controllers;
 public class ActoresController : Controller
 {
-  private static StarWarsContext _context;
+  private static StarWarsContext _context = new StarWarsContext();
 
-  public ActoresController()
-  {
-    _context = new StarWarsContext();
-  }
+  public ActoresController() { }
 
   public IActionResult Index() => View(
-    _context.Actores
+    _context.Actores?
     .Include(a => a.Apariciones)
     .ThenInclude(ap => ap.IdPeliculaNavigation)
     .Include(a => a.Apariciones)
@@ -27,7 +24,7 @@ public class ActoresController : Controller
 
   public IActionResult Detalles(int id)
   {
-    Actor resultado = _context.Actores
+    Actor? resultado = _context.Actores?
     .Include(a => a.Apariciones)
     .ThenInclude(a => a.IdPeliculaNavigation)
     .Include(a => a.Apariciones)

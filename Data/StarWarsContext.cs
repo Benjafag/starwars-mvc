@@ -8,33 +8,30 @@ namespace StarWars;
 
 public partial class StarWarsContext : DbContext
 {
-  public StarWarsContext()
-  {
-  }
-
+  public StarWarsContext() { }
   public StarWarsContext(DbContextOptions<StarWarsContext> options)
       : base(options)
   {
   }
 
-  public virtual DbSet<Actor> Actores { get; set; }
+  public virtual DbSet<Actor>? Actores { get; set; }
 
-  public virtual DbSet<Aparicion> Apariciones { get; set; }
+  public virtual DbSet<Aparicion>? Apariciones { get; set; }
 
-  public virtual DbSet<Especie> Especies { get; set; }
+  public virtual DbSet<Especie>? Especies { get; set; }
 
-  public virtual DbSet<Evento> Eventos { get; set; }
+  public virtual DbSet<Evento>? Eventos { get; set; }
 
-  public virtual DbSet<Faccion> Facciones { get; set; }
+  public virtual DbSet<Faccion>? Facciones { get; set; }
 
-  public virtual DbSet<Nave> Naves { get; set; }
+  public virtual DbSet<Nave>? Naves { get; set; }
 
-  public virtual DbSet<Pelicula> Peliculas { get; set; }
+  public virtual DbSet<Pelicula>? Peliculas { get; set; }
 
-  public virtual DbSet<Personaje> Personajes { get; set; }
+  public virtual DbSet<Personaje>? Personajes { get; set; }
 
-  public virtual DbSet<Planeta> Planetas { get; set; }
-  public virtual DbSet<BusquedaItem> Uniones { get; set; } = null!;
+  public virtual DbSet<Planeta>? Planetas { get; set; }
+  public virtual DbSet<BusquedaItem>? Uniones { get; set; } = null!;
 
   protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
       // To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -70,67 +67,82 @@ public partial class StarWarsContext : DbContext
               .HasMaxLength(25)
               .HasColumnName("nombre");
     });
+modelBuilder.Entity<Aparicion>(entity =>
+{
+    // PK compuesta
+    entity.HasKey(e => new { e.IdPersonaje, e.IdPelicula })
+          .HasName("PRIMARY");
 
-    modelBuilder.Entity<Aparicion>(entity =>
-    {
-      entity.HasKey(e => e.IdAparicion).HasName("PRIMARY");
+    entity.ToTable("apariciones");
 
-      entity.ToTable("apariciones");
+    entity.HasIndex(e => e.IdActor, "id_actor");
+    entity.HasIndex(e => e.IdFaccion, "id_faccion");
+    entity.HasIndex(e => e.IdPelicula, "id_pelicula");
+    // ya NO hace falta el unique sobre (IdPersonaje, IdPelicula),
+    // porque la PK ya lo garantiza.
 
-      entity.HasIndex(e => e.IdActor, "id_actor");
+    entity.Property(e => e.Alias)
+          .HasMaxLength(25)
+          .HasColumnName("alias");
 
-      entity.HasIndex(e => e.IdFaccion, "id_faccion");
+    entity.Property(e => e.Altura).HasColumnName("altura");
 
-      entity.HasIndex(e => e.IdPelicula, "id_pelicula");
+    entity.Property(e => e.Descripcion)
+          .HasMaxLength(150)
+          .HasColumnName("descripcion");
 
-      entity.HasIndex(e => new { e.IdPersonaje, e.IdPelicula }, "id_personaje").IsUnique();
+    entity.Property(e => e.Edad).HasColumnName("edad");
 
-      entity.Property(e => e.IdAparicion).HasColumnName("id_aparicion");
-      entity.Property(e => e.Alias)
-              .HasMaxLength(25)
-              .HasColumnName("alias");
-      entity.Property(e => e.Altura).HasColumnName("altura");
-      entity.Property(e => e.Descripcion)
-              .HasMaxLength(150)
-              .HasColumnName("descripcion");
-      entity.Property(e => e.Edad).HasColumnName("edad");
-      entity.Property(e => e.Estado)
-              .HasColumnType("enum('Vivo','Muerto','Desconocido')")
-              .HasColumnName("estado");
-      entity.Property(e => e.Foto)
-              .HasMaxLength(100)
-              .HasColumnName("foto");
-      entity.Property(e => e.IdActor).HasColumnName("id_actor");
-      entity.Property(e => e.IdFaccion).HasColumnName("id_faccion");
-      entity.Property(e => e.IdPelicula).HasColumnName("id_pelicula");
-      entity.Property(e => e.IdPersonaje).HasColumnName("id_personaje");
-      entity.Property(e => e.Peso).HasColumnName("peso");
-      entity.Property(e => e.Rango)
-              .HasColumnType("enum('Padawan','Jedi','Sith','Senador','Gobernador','General','Comandante','Soldado','Sargento')")
-              .HasColumnName("rango");
-      entity.Property(e => e.Rol)
-              .HasColumnType("enum('Protagonista','Secundario','Cameo')")
-              .HasColumnName("rol");
+    entity.Property(e => e.Estado)
+          .HasColumnType("enum('Vivo','Muerto','Desconocido')")
+          .HasColumnName("estado");
 
-      entity.HasOne(d => d.IdActorNavigation).WithMany(p => p.Apariciones)
-              .HasForeignKey(d => d.IdActor)
-              .OnDelete(DeleteBehavior.ClientSetNull)
-              .HasConstraintName("apariciones_ibfk_1");
+    // si "foto" ahora es URL, esto está bien:
+    entity.Property(e => e.Foto)
+          .HasMaxLength(100)
+          .HasColumnName("foto");
 
-      entity.HasOne(d => d.IdFaccionNavigation).WithMany(p => p.Apariciones)
-              .HasForeignKey(d => d.IdFaccion)
-              .HasConstraintName("apariciones_ibfk_2");
+    entity.Property(e => e.IdActor).HasColumnName("id_actor");
+    entity.Property(e => e.IdFaccion).HasColumnName("id_faccion");
 
-      entity.HasOne(d => d.IdPeliculaNavigation).WithMany(p => p.Apariciones)
-              .HasForeignKey(d => d.IdPelicula)
-              .OnDelete(DeleteBehavior.ClientSetNull)
-              .HasConstraintName("apariciones_ibfk_4");
+    // parte de la PK compuesta:
+    entity.Property(e => e.IdPelicula).HasColumnName("id_pelicula");
+    entity.Property(e => e.IdPersonaje).HasColumnName("id_personaje");
 
-      entity.HasOne(d => d.IdPersonajeNavigation).WithMany(p => p.Apariciones)
-              .HasForeignKey(d => d.IdPersonaje)
-              .OnDelete(DeleteBehavior.ClientSetNull)
-              .HasConstraintName("apariciones_ibfk_3");
-    });
+    entity.Property(e => e.Peso).HasColumnName("peso");
+
+    entity.Property(e => e.Rango)
+          .HasColumnType("enum('Padawan','Jedi','Sith','Senador','Gobernador','General','Comandante','Soldado','Sargento')")
+          .HasColumnName("rango");
+
+    entity.Property(e => e.Rol)
+          .HasColumnType("enum('Protagonista','Secundario','Cameo')")
+          .HasColumnName("rol");
+
+    entity.HasOne(d => d.IdActorNavigation)
+          .WithMany(p => p.Apariciones)
+          .HasForeignKey(d => d.IdActor)
+          .OnDelete(DeleteBehavior.ClientSetNull)
+          .HasConstraintName("apariciones_ibfk_1");
+
+    entity.HasOne(d => d.IdFaccionNavigation)
+          .WithMany(p => p.Apariciones)
+          .HasForeignKey(d => d.IdFaccion)
+          .HasConstraintName("apariciones_ibfk_2");
+
+    entity.HasOne(d => d.IdPeliculaNavigation)
+          .WithMany(p => p.Apariciones)
+          .HasForeignKey(d => d.IdPelicula)
+          .OnDelete(DeleteBehavior.ClientSetNull)
+          .HasConstraintName("apariciones_ibfk_4");
+
+    entity.HasOne(d => d.IdPersonajeNavigation)
+          .WithMany(p => p.Apariciones)
+          .HasForeignKey(d => d.IdPersonaje)
+          .OnDelete(DeleteBehavior.ClientSetNull)
+          .HasConstraintName("apariciones_ibfk_3");
+});
+
 
     modelBuilder.Entity<Especie>(entity =>
     {
