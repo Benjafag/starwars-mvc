@@ -25,7 +25,7 @@
         <img src="@Model.Foto"
              alt="Foto de @Model.NombrePersonaje en @Model.TituloPelicula"
              class="w-100"
-             style="aspect-ratio: 3 / 4; object-fit: cover;" />
+             style="aspect-ratio: 3 / 4; object-fit: cover; max-height: 500px; object-position: top;" />
       </article>
 
       <!-- Badges rápidos -->
@@ -48,10 +48,10 @@
     <!-- Info principal -->
     <section class="col-12 col-lg-8">
       <header class="mb-3">
-        <h1 class="display-6 fw-bold mb-1 sw-title">@Model.NombrePersonaje</h1>
+        <h1 class="display-6 fw-bold mb-1 sw-title">@Model.NombrePersonaje <span class="fs-5 text-muted">en <span class="text-warning">@Model.TituloPelicula</span></span></h1>
 
         <div class="d-flex flex-wrap align-items-center gap-2">
-          @if (Model.Alias != "Sin alias")
+          @if (!string.IsNullOrWhiteSpace(Model.Alias))
           {
             <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
               Alias: @Model.Alias
@@ -81,7 +81,7 @@
         </div>
 
         <div class="text-muted mt-2">
-          En <span class="text-warning">@Model.TituloPelicula</span>
+          
         </div>
       </header>
 
@@ -123,7 +123,7 @@
                 <img src="@Model.FotoActor"
                      alt="Foto de @Model.NombreActor"
                      class="rounded-circle border"
-                     style="width: 64px; height: 64px; object-fit: cover;" />
+                     style="width: 64px; height: 64px; object-fit: cover;  filter: drop-shadow(0px 0px 20px #1e2c47);" />
                 <div class="flex-grow-1">
                   <div class="text-muted small text-uppercase">Actor</div>
                   <div class="fw-semibold">@Model.NombreActor</div>
@@ -156,7 +156,7 @@
               <div class="d-flex align-items-center gap-3 p-3">
                 <img src="@Model.LogoFaccion"
                      alt="Logo de @Model.NombreFaccion"
-                     style="width: 64px; height: 64px; object-fit: cover; border-radius: 14px;" />
+                     style="width: 64px; height: 64px; object-fit: cover; border-radius: 14px; filter: drop-shadow(0px 0px 20px #324871);" />
                 <div class="flex-grow-1">
                   <div class="text-muted small text-uppercase">Facción</div>
                   <div class="fw-semibold">@Model.NombreFaccion</div>

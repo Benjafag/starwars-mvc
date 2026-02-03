@@ -40,7 +40,8 @@ public class PeliculaDetallesVM
     {
       Personajes.Add(new PeliculaPersonajeVM
       {
-        Nombre = aparicion.IdPersonajeNavigation?.Nombre,
+        IdPersonaje = aparicion.IdPersonaje,
+        Nombre = aparicion.IdPersonajeNavigation?.Nombre ?? "",
         Foto = aparicion.Foto
       });
     }
@@ -63,6 +64,7 @@ public class PeliculaPersonajeVM
 {
   public PeliculaPersonajeVM() { }
 
+  public int IdPersonaje {get;set;}
   public string Nombre { get; set; } = null!;
   public string? Foto { get; set; }
 }

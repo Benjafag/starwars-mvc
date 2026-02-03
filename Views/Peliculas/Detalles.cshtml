@@ -90,15 +90,17 @@
     @foreach (PeliculaPersonajeVM personaje in Model.Personajes)
     {
       <div class="col-6 col-md-4 col-lg-3 col-xl-2">
-        <article class="card sw-card sw-hover h-100 text-center">
-          <div class="card-body p-3 d-flex flex-column align-items-center">
-            <img src="@personaje.Foto"
-                 alt="Foto de @personaje.Nombre"
-                 class="rounded-circle border shadow-sm mb-2"
-                 style="width: 84px; height: 84px; object-fit: cover; object-position: top;" />
-            <span class="small fw-semibold">@personaje.Nombre</span>
-          </div>
-        </article>
+        <a href="/Personajes/Detalles/@personaje.IdPersonaje/@Model.IdPelicula">
+          <article class="card sw-card sw-hover h-100 text-center">
+            <div class="card-body p-3 d-flex flex-column align-items-center">
+              <img src="@personaje.Foto"
+                  alt="Foto de @personaje.Nombre"
+                  class="rounded-circle border shadow-sm mb-2"
+                  style="width: 84px; height: 84px; object-fit: cover; object-position: top;" />
+              <span class="small fw-semibold">@personaje.Nombre</span>
+            </div>
+          </article>
+        </a>
       </div>
     }
   </div>
