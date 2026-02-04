@@ -1,14 +1,13 @@
 @using StarWars.ViewModels
 @model ActorDetallesVM
 @{
-  ViewData["Title"] = $"{Model.Nombre} {Model.Apellido}";
+  ViewData["Title"] = $"{Model.Nombre}";
 }
 
 <div class="py-4 sw-page">
   <!-- Header -->
   <div class="d-flex align-items-center justify-content-between mb-3">
-    <a onclick="history.back()"
-       class="btn btn-outline-warning btn-sm sw-btn">
+    <a onclick="history.back()" class="btn btn-outline-warning btn-sm sw-btn">
       ← Volver
     </a>
     <span class="badge rounded-pill text-bg-dark border border-warning-subtle sw-badge">
@@ -21,24 +20,82 @@
     <aside class="col-12 col-lg-4">
       <div class="card sw-card shadow-sm">
         <div class="card-body text-center">
-          <img class="rounded-circle border sw-avatar mb-3"
-               src="@Model.Foto"
-               alt="Foto de @Model.Nombre @Model.Apellido"
-               style="width: 220px; height: 220px; object-fit: cover; object-position: center;
-               view-transition-name: actor-imagen-@Model.IdActor;" />
 
-          <h1 class="h3 mb-1 sw-title">@Model.Nombre @Model.Apellido</h1>
-          <p class="text-white fw-light mb-3">Apariciones: @Model.Apariciones?.Count()</p>
+          <img class="rounded-circle border sw-avatar mb-3" src="@Model.Foto" alt="Foto de @Model.Nombre" style="width: 220px; height: 220px; object-fit: cover; object-position: center;
+                  view-transition-name: actor-imagen-@Model.IdActor;" />
 
-          <div class="d-grid gap-2">
-            <a class="btn btn-warning sw-btn"
-               href="#apariciones">
-              Ver apariciones
-            </a>
+          <h1 class="h3 mb-1 sw-title">@Model.Nombre</h1>
+
+          <div class="d-flex flex-wrap justify-content-center mt-2 ">
+            @if (Model.Apariciones?.Count() > 0)
+            {
+              <span class="badge text-bg-dark border border-warning-subtle px-5 py-2">
+                @Model.Apariciones?.Count() @(Model.Apariciones?.Count() == 1 ? "aparición" : "apariciones")
+              </span>
+            }
           </div>
+
+          <!-- Datos en formato “ficha” -->
+          <div class="card sw-card mt-3 text-start">
+            <div class="card-body py-3">
+              <div class="small text-muted text-uppercase mb-2">Ficha</div>
+
+              <div class="d-flex justify-content-between gap-2">
+                <span class="text-muted small">Fecha de Nacimiento</span>
+                <span class="small text-end">
+                  @Model.FechaNacimiento
+                </span>
+              </div>
+
+              <div class="d-flex justify-content-between gap-2">
+                <span class="text-muted small">Nacionalidad</span>
+                <span class="small text-end">
+                  @Model.Nacionalidad
+                </span>
+              </div>
+
+              <div class="d-flex justify-content-between gap-2">
+                <span class="text-muted small">Género</span>
+                <span class="small text-end">
+                  @Model.Genero
+                </span>
+              </div>
+              @* Si en algún momento agregás esto:
+          <div class="d-flex justify-content-between gap-2 mt-2">
+            <span class="text-muted small">Edad</span>
+            <span class="small text-end">@Model.Edad</span>
+          </div>
+          *@
         </div>
+          </div>
+
+          <!-- Bio (opcional, pero recomendado) -->
+          @if (!string.IsNullOrWhiteSpace(Model.Biografia))
+          {
+            <div class="card sw-card mt-3 text-start">
+              <div class="card-body py-3">
+                <div class="small text-muted text-uppercase mb-2">Biografía</div>
+                <p class="mb-0 small" style="white-space: pre-line;">@Model.Biografia</p>
+              </div>
+            </div>
+          }
+          else
+          {
+            <div class="mt-3 text-muted small">
+              Sin biografía por ahora.
+            </div>
+          }
+
+          @* <div class="d-grid gap-2 mt-3">
+        <a class="btn btn-warning sw-btn" href="#apariciones">
+          Ver apariciones
+        </a>
+      </div> *@
+
+    </div>
       </div>
     </aside>
+
 
     <!-- Col derecha: apariciones -->
     <section class="col-12 col-lg-8" id="apariciones">
@@ -47,45 +104,41 @@
       </div>
 
       <div class="row g-3">
-      @if (Model.Apariciones is not null)
-        @foreach (ActorAparicionVM aparicion in Model.Apariciones)
-        {
-          <div class="col-12 col-md-6 col-xl-4">
-            <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@aparicion.IdPelicula">
+        @if (Model.Apariciones is not null)
+          @foreach (ActorAparicionVM aparicion in Model.Apariciones)
+          {
+            <div class="col-12 col-md-6 col-xl-4">
+              <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@aparicion.IdPelicula">
 
-            <article class="card sw-card sw-hover h-100" style="view-transition-name: contenedor-@aparicion.IdPelicula;">
-              <img class="card-img-top sw-poster"
-                   src="@aparicion.Poster"
-                   alt="Poster de @aparicion.NombrePelicula" 
-                   style="view-transition-name: poster-@aparicion.IdPelicula;"/>
+                <article class="card sw-card sw-hover h-100"
+                  style="view-transition-name: contenedor-@aparicion.IdPelicula;">
+                  <img class="card-img-top sw-poster" src="@aparicion.Poster" alt="Poster de @aparicion.NombrePelicula"
+                    style="view-transition-name: poster-@aparicion.IdPelicula;" />
 
-              <div class="card-body">
-                <h3 
-                class="h6 mb-1 sw-movie"
-                style="view-transition-name: titulo-@aparicion.IdPelicula;"
-                >@aparicion.NombrePelicula</h3>
+                  <div class="card-body">
+                    <h3 class="h6 mb-1 sw-movie" style="view-transition-name: titulo-@aparicion.IdPelicula;">
+                      @aparicion.NombrePelicula</h3>
 
-                <div class="small">
-                  <span class="badge text-bg-warning sw-pill">@aparicion.NombrePersonaje</span>
-                </div>
+                    <div class="small">
+                      <span class="badge text-bg-warning sw-pill">@aparicion.NombrePersonaje</span>
+                    </div>
 
-                <p class="text-white fw-light mt-2 mb-0 sw-desc">
-                  @aparicion.Descripcion
-                </p>
-              </div>
+                    <p class="text-white fw-light mt-2 mb-0 sw-desc">
+                      @aparicion.Descripcion
+                    </p>
+                  </div>
 
-              <div class="card-footer bg-transparent border-0 pt-0">
-                <div class="d-flex align-items-center justify-content-between">
-                  <span class="text-white small">Ver más</span>
-                  <span class="sw-arrow">→</span>
-                </div>
-              </div>
-            </article>
-            </a>
-          </div>
-        }
+                  <div class="card-footer bg-transparent border-0 pt-0">
+                    <div class="d-flex align-items-center justify-content-between">
+                      <span class="text-white small">Ver más</span>
+                      <span class="sw-arrow">→</span>
+                    </div>
+                  </div>
+                </article>
+              </a>
+            </div>
+          }
       </div>
     </section>
   </div>
 </div>
-
