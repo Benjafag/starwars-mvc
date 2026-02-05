@@ -56,16 +56,8 @@ a:hover {
 /* Fondo + look general */
 .sw-page {
   background:
-    radial-gradient(
-      1200px 600px at 20% 10%,
-      rgba(255, 193, 7, 0.08),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 90% 40%,
-      rgba(13, 110, 253, 0.08),
-      transparent 55%
-    ),
+    radial-gradient(1200px 600px at 20% 10%,rgba(255, 193, 7, 0.08),transparent 60%),
+    radial-gradient(900px 500px at 90% 40%,rgba(13, 110, 253, 0.08),transparent 55%),
     #0b0f19;
   border-radius: 24px;
   padding: 24px;
@@ -170,16 +162,8 @@ a:hover {
   min-height: 100vh;
   position: relative;
   background:
-    radial-gradient(
-      1200px 600px at 15% 10%,
-      rgba(255, 193, 7, 0.12),
-      transparent 60%
-    ),
-    radial-gradient(
-      900px 500px at 85% 35%,
-      rgba(13, 110, 253, 0.12),
-      transparent 55%
-    ),
+    radial-gradient(1200px 600px at 15% 10%,rgba(255, 193, 7, 0.12),transparent 60%),
+    radial-gradient(900px 500px at 85% 35%,rgba(13, 110, 253, 0.12),transparent 55%),
     #070a12;
   overflow: hidden;
 }
@@ -189,53 +173,57 @@ a:hover {
   inset: 0;
   pointer-events: none;
   z-index: 0;
-  opacity: 1; /* subilo a .8 si querés más fuerte */
+  opacity: .3; /* opacidad de las estrellas */
 
   background-image:
-    radial-gradient(
-      1px 1px at 10% 20%,
-      rgba(255, 255, 255, 0.9) 50%,
-      transparent 51%
-    ),
-    radial-gradient(
-      1px 1px at 30% 80%,
-      rgba(255, 255, 255, 0.8) 50%,
-      transparent 51%
-    ),
-    radial-gradient(
-      1px 1px at 55% 35%,
-      rgba(255, 255, 255, 0.75) 50%,
-      transparent 51%
-    ),
-    radial-gradient(
-      1px 1px at 70% 65%,
-      rgba(255, 255, 255, 0.85) 50%,
-      transparent 51%
-    ),
-    radial-gradient(
-      1px 1px at 85% 25%,
-      rgba(255, 255, 255, 0.7) 50%,
-      transparent 51%
-    ),
-    radial-gradient(
-      2px 2px at 20% 50%,
-      rgba(255, 255, 255, 0.6) 50%,
-      transparent 51%
-    ),
-    radial-gradient(
-      2px 2px at 90% 75%,
-      rgba(255, 255, 255, 0.55) 50%,
-      transparent 51%
-    );
+    radial-gradient(1px 1px at 10% 20%,rgba(255, 255, 255, 0.9) 50%,transparent 51%),
+    radial-gradient(1px 1px at 30% 80%,rgba(255, 255, 255, 0.8) 50%,transparent 51%),
+    radial-gradient(1px 1px at 55% 35%,rgba(255, 255, 255, 0.75) 50%,transparent 51%),
+    radial-gradient(1px 1px at 70% 65%,rgba(255, 255, 255, 0.85) 50%,transparent 51%),
+    radial-gradient(1px 1px at 85% 25%,rgba(255, 255, 255, 0.7) 50%,transparent 51%),
+    radial-gradient(2px 2px at 20% 50%,rgba(255, 255, 255, 0.6) 50%,transparent 51%),
+    radial-gradient(2px 2px at 90% 75%,rgba(255, 255, 255, 0.55) 50%,transparent 51%);
 
   background-repeat: repeat;
-  background-size: 250px 250px; /* más chico => más densidad */
+  background-size: 350px 350px; /* más chico => más densidad */
   filter: blur(0.2px);
 }
 .sw-bg > * {
   position: relative;
   z-index: 1;
 }
+
+.sw-bg::before{
+  animation: sw-stars-a 5s ease-in-out infinite alternate;
+}
+
+.sw-bg::after{
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+
+  background-image:
+    radial-gradient(1px 1px at 15% 60%, white 50%, transparent 51%),
+    radial-gradient(1px 1px at 45% 25%, white 50%, transparent 51%),
+    radial-gradient(2px 2px at 75% 40%, white 50%, transparent 51%);
+
+  background-size: 500px 500px;
+  animation: sw-stars-b 5s ease-in-out infinite alternate;
+}
+
+@keyframes sw-stars-a{
+  0% { opacity: .35; }
+  100% { opacity: 1; }
+}
+
+@keyframes sw-stars-b{
+  0% { opacity: .1; }
+  100% { opacity: .9; }
+}
+
+
 
 /* Navbar panel sci-fi */
 .sw-nav {
@@ -445,4 +433,42 @@ a:hover {
 .sw-logo-nav{
   max-height: 60px;
   filter: invert(1);
+}
+
+.sw-bg{
+  position: relative;
+  overflow: hidden;
+}
+
+/* Niebla: capa 1 */
+.sw-bg::after{
+  content:"";
+  position: fixed;
+  inset: -20%;
+  pointer-events: none;
+  z-index: 0;
+
+  background:
+    radial-gradient(800px 500px at 20% 30%, rgba(13,110,253,.10), transparent 60%),
+    radial-gradient(700px 450px at 80% 40%, rgba(255,193,7,.08), transparent 62%),
+    radial-gradient(900px 600px at 55% 80%, rgba(255,255,255,.05), transparent 70%);
+
+  filter: blur(18px);
+  opacity: .55;
+
+  animation: sw-fog 10s ease-in-out infinite alternate;
+}
+
+@keyframes sw-fog{
+  0%   { transform: translate3d(-1.5%, -1%, 0) scale(1.02); }
+  100% { transform: translate3d( 1.5%,  1%, 0) scale(1.06); }
+}
+
+.sw-bg{
+  background:
+    radial-gradient(1200px 600px at 15% 10%, rgba(255, 193, 7, .12), transparent 60%),
+    radial-gradient(900px 500px at 85% 35%, rgba(13, 110, 253, .12), transparent 55%),
+    #070a12;
+
+  background-attachment: fixed, fixed, fixed;
 }
