@@ -472,3 +472,60 @@ a:hover {
 
   background-attachment: fixed, fixed, fixed;
 }
+
+/* mini avatar */
+.sw-avatar-mini{
+  transition: transform .25s ease;
+}
+
+/* aro (ring) que da “tecnología” */
+.sw-ring{
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,193,7,.22);
+  box-shadow: 0 0 0 4px rgba(255,193,7,.07);
+  pointer-events: none;
+  opacity: .9;
+}
+
+/* texto “ver registro” aparece más con hover */
+.sw-hint{
+  opacity: .55;
+  transition: opacity .18s ease, transform .18s ease;
+}
+
+/* fuerza vs no-fuerza: borde sutil distinto */
+.sw-force{
+  border-color: rgba(13,110,253,.35) !important;
+}
+.sw-noforce{
+  border-color: rgba(255,193,7,.18) !important;
+}
+
+/* holograma overlay */
+.sw-holo{
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background:
+    radial-gradient(400px 250px at 50% 15%, rgba(13,110,253,.18), transparent 60%),
+    linear-gradient(180deg, rgba(255,193,7,.08), transparent 35%);
+  transition: opacity .18s ease;
+}
+
+/* hover: más vida */
+.sw-hover{
+  position: relative;
+}
+.sw-hover:hover .sw-holo{
+  opacity: 1;
+}
+.sw-hover:hover .sw-avatar-mini{
+  transform: scale(1.06);
+}
+.sw-hover:hover .sw-hint{
+  opacity: .95;
+  transform: translateY(-1px);
+}

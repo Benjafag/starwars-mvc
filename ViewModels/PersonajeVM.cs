@@ -4,6 +4,21 @@ using StarWars.Models;
 
 namespace StarWars.ViewModels;
 
+public class PersonajeIndexVM
+{
+  public PersonajeIndexVM() {}
+  public PersonajeIndexVM(BusquedaItem u)
+  {
+    IdPersonaje = u.Id;
+    Nombre = u.Nombre;
+    Foto = u.Foto;
+  }
+
+  public int IdPersonaje { get; set; }
+  public string Nombre { get; set; } = null!;
+  public string? Foto { get; set; }
+}
+
 public class PersonajeDetallesVM
 {
   public PersonajeDetallesVM() { }
