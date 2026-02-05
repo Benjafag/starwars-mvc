@@ -13,19 +13,6 @@
     <a onclick="history.back()" class="btn btn-outline-warning btn-sm sw-btn">
       ← Volver
     </a>
-
-    @if (Model.SensibleALaFuerza)
-    {
-      <span class="badge rounded-pill text-bg-warning text-dark">
-        Sensible a la Fuerza
-      </span>
-    }
-    else
-    {
-      <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
-        No sensible a la Fuerza
-      </span>
-    }
   </div>
 
   <div class="row g-4 align-items-start">
@@ -33,97 +20,179 @@
     <aside class="col-12 col-lg-3">
       <article class="card sw-card overflow-hidden shadow-sm">
         <img src="@Model.Foto" alt="Foto de @Model.Nombre" class="w-100"
-          style="aspect-ratio: 9 / 12; object-fit: cover;" />
+          style="aspect-ratio: 9 / 12; object-fit: cover; max-height: 750px;" />
       </article>
+
+
+      <!-- Ficha -->
+      <div class="card sw-card mt-3 ">
+        
+          @if (Model.SensibleALaFuerza)
+          {
+            <div class="card-body p-2 text-center bg-warning text-dark rounded-4 border border-dark">
+              <span>
+                Sensible a la Fuerza
+              </span>
+            </div>
+          }
+          else
+          {
+            <div class="card-body p-2 text-center">
+              <span>
+                No sensible a la Fuerza
+              </span>
+            </div>
+          }
+
+        </div>
+      
+
     </aside>
 
     <!-- Info -->
-    <section class="col-12 col-lg-9 px-4">
+    <section class="col-12 col-lg-9">
+
       <header class="mb-3">
         <h1 class="display-6 fw-bold mb-1 sw-title">@Model.Nombre</h1>
-
-        <div class="d-flex flex-wrap gap-2 align-items-center">
-          <span class="badge text-bg-dark border border-warning-subtle">
-            @Model.Genero
-          </span>
-
-          <a asp-controller="Especies" asp-action="Detalles" asp-route-id="@Model.IdEspecie"
-            class="badge text-bg-dark border border-info-subtle text-decoration-none sw-link">
-            @Model.Especie
-          </a>
-
-          <a asp-controller="Planetas" asp-action="Detalles" asp-route-id="@Model.IdPlanetaOrigen"
-            class="badge text-bg-dark border border-warning-subtle text-decoration-none sw-link">
-            @Model.PlanetaOrigen
-          </a>
-        </div>
       </header>
 
+
+      <!-- Biografía -->
       <div class="card sw-card">
-        <div class="card-body p-4">
-          <h2 class="h6 text-uppercase text-muted mb-2">Biografía</h2>
-          <p class="mb-0" style="white-space: pre-line;">@Model.Biografia</p>
-        </div>
-      </div>
-    </section>
-  </div>
+        <div class="card-body p-4 row">
 
-  <hr class="border-warning-subtle my-4" />
-  <!-- apariciones -->
-  <section class="col-12" id="apariciones">
-    <div class="d-flex align-items-center justify-content-between mb-2">
-      <h2 class="h5 mb-2 text-warning sw-section-title">Apariciones</h2>
-    </div>
+          <div class="col-12 col-lg-9">
+            <h2 class="h6 text-uppercase text-muted mb-2">Biografía</h2>
+            <p class="mb-0" style="white-space: pre-line;">@Model.Biografia</p>
+          </div>
 
-    <div class="row g-3">
-      @foreach (PersonajeAparicionVM aparicion in Model.Apariciones)
-      {
-        <div class="col-12 col-md-6 col-xl-3">
-          <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@aparicion.IdPelicula">
+          <div class="col-12 col-lg-3">
+            <h2 class="h6 text-uppercase text-muted mb-3">Datos</h2>
 
-            <article class="card sw-card sw-minihover h-100 overflow-hidden"
-              style="view-transition-name: contenedor-@aparicion.IdPelicula;">
+            <div class="d-flex flex-column gap-2 small">
 
-              <div class="position-relative">
-                <img class="card-img-top sw-poster" src="@aparicion.Poster" alt="Poster de @aparicion.NombrePelicula"
-                  style="view-transition-name: poster-@aparicion.IdPelicula;" />
+              @* @if (Model.Genero != "No especificado")
+              {
+                <div class="d-flex justify-content-between gap-3">
+                  <span class="text-muted">Género</span>
+                  <span class="text-end">@Model.Genero</span>
+                </div>
+              }
 
-                <!-- foto del personaje en ESA pelicula -->
-                <a href="/Personajes/Detalles/@Model.IdPersonaje/@aparicion.IdPelicula" style="text-decoration: none; color: #fff;">
-                  <div class="sw-cameo d-flex align-items-center gap-2">
-                    <img src="@aparicion.Foto" alt="Aparición de @Model.Nombre en @aparicion.NombrePelicula"
-                      class="sw-cameo-img" />
-                    <div class="sw-cameo-text">
-                      <div class="sw-cameo-title">@Model.Nombre</div>
-                      <div class="sw-cameo-sub">@aparicion.NombrePelicula</div>
-                    </div>
-                  </div>
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Especie</span>
+                <a asp-controller="Especies" asp-action="Detalles" asp-route-id="@Model.IdEspecie"
+                  class="text-decoration-none sw-underline text-end p-0 text-white">
+                  @Model.Especie
+                  <i class="bi bi-arrow-up-right ms-1 flecha-abrir"></i>
                 </a>
               </div>
 
-              <div class="card-body">
-                <h3 class="h6 mb-1 sw-movie" style="view-transition-name: titulo-@aparicion.IdPelicula;">
-                  @aparicion.NombrePelicula
-                </h3>
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Planeta origen</span>
+                <a asp-controller="Planetas" asp-action="Detalles" asp-route-id="@Model.IdPlanetaOrigen"
+                  class="text-decoration-none sw-underline text-end text-white p-0">
+                  @Model.PlanetaOrigen
+                  <i class="bi bi-arrow-up-right ms-1 flecha-abrir"></i>
+                </a>
+              </div> *@
 
-                <p class="text-white fw-light mt-2 mb-0 sw-desc">
-                  @aparicion.Descripcion
-                </p>
-              </div>
-
-              <div class="card-footer bg-transparent border-0 pt-0">
-                <div class="d-flex align-items-center justify-content-between">
-                  <span class="text-white small">Ver más</span>
-                  <span class="sw-arrow">→</span>
-                </div>
-              </div>
-            </article>
-
-          </a>
+              @if(Model.Genero != "No especificado"){
+        <div class="d-flex justify-content-between gap-3">
+          <span class="text-muted">Género</span>
+          <span class="sw-field text-end">
+            @Model.Genero
+          </span>
         </div>
       }
-    </div>
-  </section>
-</div>
+
+      <div class="d-flex justify-content-between gap-3">
+        <span class="text-muted">Especie</span>
+        <a asp-controller="Especies"
+           asp-action="Detalles"
+           asp-route-id="@Model.IdEspecie"
+           class="sw-field-link text-end text-decoration-none">
+          @Model.Especie
+        </a>
+      </div>
+
+      <div class="d-flex justify-content-between gap-3">
+        <span class="text-muted">Planeta origen</span>
+        <a asp-controller="Planetas"
+           asp-action="Detalles"
+           asp-route-id="@Model.IdPlanetaOrigen"
+           class="sw-field-link text-end text-decoration-none">
+          @Model.PlanetaOrigen
+        </a>
+      </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      </div>
+
+    </section>
+    
+    <hr class="border-warning-subtle my-4" />
+
+    <!-- Apariciones -->
+    <section class="col-12" id="apariciones">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <h2 class="h5 mb-2 text-warning sw-section-title">Apariciones</h2>
+      </div>
+
+      <div class="row g-3">
+        @foreach (PersonajeAparicionVM aparicion in Model.Apariciones)
+        {
+          <div class="col-12 col-md-6 col-xl-3">
+            <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@aparicion.IdPelicula">
+
+              <article class="card sw-card sw-minihover h-100 overflow-hidden"
+                style="view-transition-name: contenedor-@aparicion.IdPelicula;">
+
+                <div class="position-relative">
+                  <img class="card-img-top sw-poster" src="@aparicion.Poster" alt="Poster de @aparicion.NombrePelicula"
+                    style="view-transition-name: poster-@aparicion.IdPelicula;" />
+
+                  <!-- foto del personaje en ESA pelicula -->
+                  <a href="/Personajes/Detalles/@Model.IdPersonaje/@aparicion.IdPelicula"
+                    style="text-decoration: none; color: #fff;">
+                    <div class="sw-cameo d-flex align-items-center gap-2">
+                      <img src="@aparicion.Foto" alt="Aparición de @Model.Nombre en @aparicion.NombrePelicula"
+                        class="sw-cameo-img" />
+                      <div class="sw-cameo-text">
+                        <div class="sw-cameo-title">@Model.Nombre</div>
+                        <div class="sw-cameo-sub">@aparicion.NombrePelicula</div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="card-body">
+                  <h3 class="h6 mb-1 sw-movie" style="view-transition-name: titulo-@aparicion.IdPelicula;">
+                    @aparicion.NombrePelicula
+                  </h3>
+
+                  <p class="text-white fw-light mt-2 mb-0 sw-desc">
+                    @aparicion.Descripcion
+                  </p>
+                </div>
+
+                <div class="card-footer bg-transparent border-0 pt-0">
+                  <div class="d-flex align-items-center justify-content-between">
+                    <span class="text-white small">Ver más</span>
+                    <span class="sw-arrow">→</span>
+                  </div>
+                </div>
+              </article>
+
+            </a>
+          </div>
+        }
+      </div>
+    </section>
+  </div>
 
 </div>

@@ -18,9 +18,9 @@ public class HomeController : Controller
   {
     List<BusquedaItem>? items;
     if (string.IsNullOrEmpty(query))
-      items =  _context.Uniones?.ToList();
+      items =  _context.Uniones?.OrderBy(u => u.Categoria).ThenBy(u => u.Nombre).ToList();
     else
-      items =  _context.Uniones?.Where(item => item.Nombre.ToLower().Contains(query.ToLower())).ToList();
+      items =  _context.Uniones?.OrderBy(u => u.Categoria).ThenBy(u => u.Nombre).Where(item => item.Nombre.ToLower().Contains(query.ToLower())).ToList();
     return View(items);
   }
 

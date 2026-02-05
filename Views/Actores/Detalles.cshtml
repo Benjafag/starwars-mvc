@@ -60,16 +60,10 @@
                   @Model.Genero
                 </span>
               </div>
-              @* Si en algún momento agregás esto:
-          <div class="d-flex justify-content-between gap-2 mt-2">
-            <span class="text-muted small">Edad</span>
-            <span class="small text-end">@Model.Edad</span>
-          </div>
-          *@
-        </div>
+            </div>
           </div>
 
-          <!-- Bio (opcional, pero recomendado) -->
+          <!-- Bio -->
           @if (!string.IsNullOrWhiteSpace(Model.Biografia))
           {
             <div class="card sw-card mt-3 text-start">
@@ -86,13 +80,7 @@
             </div>
           }
 
-          @* <div class="d-grid gap-2 mt-3">
-        <a class="btn btn-warning sw-btn" href="#apariciones">
-          Ver apariciones
-        </a>
-      </div> *@
-
-    </div>
+        </div>
       </div>
     </aside>
 

@@ -22,10 +22,8 @@
     <!-- Foto aparición -->
     <aside class="col-12 col-lg-4">
       <article class="card sw-card overflow-hidden shadow-sm">
-        <img src="@Model.Foto"
-             alt="Foto de @Model.NombrePersonaje en @Model.TituloPelicula"
-             class="w-100"
-             style="aspect-ratio: 3 / 4; object-fit: cover; max-height: 500px; object-position: top;" />
+        <img src="@Model.Foto" alt="Foto de @Model.NombrePersonaje en @Model.TituloPelicula" class="w-100"
+          style="aspect-ratio: 3 / 4; object-fit: cover; max-height: 500px; object-position: top;" />
       </article>
 
       <!-- Badges rápidos -->
@@ -48,15 +46,18 @@
     <!-- Info principal -->
     <section class="col-12 col-lg-8">
       <header class="mb-3">
-        <h1 class="display-6 fw-bold mb-1 sw-title">@Model.NombrePersonaje <span class="fs-5 text-muted">en <span class="text-warning">@Model.TituloPelicula</span></span></h1>
+        <h1 class="display-6 fw-bold sw-title mb-0">
+          @Model.NombrePersonaje
+          <span> @if (!string.IsNullOrWhiteSpace(Model.Alias)){
+            <span class="fs-5">
+              (@Model.Alias)
+            </span>}
+          </span>
 
-        <div class="d-flex flex-wrap align-items-center gap-2">
-          @if (!string.IsNullOrWhiteSpace(Model.Alias))
-          {
-            <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
-              Alias: @Model.Alias
-            </span>
-          }
+        </h1>
+        <span class="fs-5 text-muted fw-bold"> En <span class="text-warning">@Model.TituloPelicula</span></span>
+        <div class="d-flex flex-wrap align-items-center gap-2 mt-2">
+
 
           @if (Model.Edad > 0)
           {
@@ -81,7 +82,7 @@
         </div>
 
         <div class="text-muted mt-2">
-          
+
         </div>
       </header>
 
@@ -98,12 +99,11 @@
         <!-- Película -->
         <div class="col-12 col-md-6">
           <a asp-controller="Peliculas" asp-action="Detalles" asp-route-id="@Model.IdPelicula"
-             class="text-decoration-none text-reset d-block h-100">
+            class="text-decoration-none text-reset d-block h-100">
             <div class="card sw-card sw-hover h-100 overflow-hidden">
               <div class="d-flex">
-                <img src="@Model.PosterPelicula"
-                     alt="Poster de @Model.TituloPelicula"
-                     style="width: 90px; height: 120px; object-fit: cover;" />
+                <img src="@Model.PosterPelicula" alt="Poster de @Model.TituloPelicula"
+                  style="width: 90px; height: 120px; object-fit: cover;" />
                 <div class="card-body py-3  d-flex flex-column justify-content-center">
                   <div class="text-muted small text-uppercase">Película</div>
                   <div class="fw-semibold">@Model.TituloPelicula</div>
@@ -117,13 +117,11 @@
         <!-- Actor -->
         <div class="col-12 col-md-6">
           <a asp-controller="Actores" asp-action="Detalles" asp-route-id="@Model.IdActor"
-             class="text-decoration-none text-reset d-block h-100">
+            class="text-decoration-none text-reset d-block h-100">
             <div class="card sw-card sw-hover h-100 overflow-hidden d-flex justify-content-center">
               <div class="d-flex align-items-center gap-3 p-3">
-                <img src="@Model.FotoActor"
-                     alt="Foto de @Model.NombreActor"
-                     class="rounded-circle border"
-                     style="width: 64px; height: 64px; object-fit: cover;  filter: drop-shadow(0px 0px 20px #1e2c47);" />
+                <img src="@Model.FotoActor" alt="Foto de @Model.NombreActor" class="rounded-circle border"
+                  style="width: 64px; height: 64px; object-fit: cover;  filter: drop-shadow(0px 0px 20px #1e2c47);" />
                 <div class="flex-grow-1">
                   <div class="text-muted small text-uppercase">Actor</div>
                   <div class="fw-semibold">@Model.NombreActor</div>
@@ -137,7 +135,7 @@
         <!-- Personaje -->
         <div class="col-12 col-md-6">
           <a asp-controller="Personajes" asp-action="Detalles" asp-route-id="@Model.IdPersonaje"
-             class="text-decoration-none text-reset d-block h-100">
+            class="text-decoration-none text-reset d-block h-100">
             <div class="card sw-card sw-hover h-100">
               <div class="card-body">
                 <div class="text-muted small text-uppercase">Personaje</div>
@@ -151,12 +149,11 @@
         <!-- Facción -->
         <div class="col-12 col-md-6">
           <a asp-controller="Facciones" asp-action="Detalles" asp-route-id="@Model.IdFaccion"
-             class="text-decoration-none text-reset d-block h-100">
+            class="text-decoration-none text-reset d-block h-100">
             <div class="card sw-card sw-hover h-100 overflow-hidden">
               <div class="d-flex align-items-center gap-3 p-3">
-                <img src="@Model.LogoFaccion"
-                     alt="Logo de @Model.NombreFaccion"
-                     style="width: 64px; height: 64px; object-fit: cover; border-radius: 14px; filter: drop-shadow(0px 0px 20px #324871);" />
+                <img src="@Model.LogoFaccion" alt="Logo de @Model.NombreFaccion"
+                  style="width: 64px; height: 64px; object-fit: cover; border-radius: 14px; filter: drop-shadow(0px 0px 20px #324871);" />
                 <div class="flex-grow-1">
                   <div class="text-muted small text-uppercase">Facción</div>
                   <div class="fw-semibold">@Model.NombreFaccion</div>
