@@ -15,11 +15,11 @@ public class PersonajesController : Controller
 
   public IActionResult Index()
   {
-  var res =
+  List<PersonajeIndexVM>? res =
     // from u in _context.Uniones
     // join p in _context.Personajes on u.Id equals p.IdPersonaje
     // select new PersonajeIndexVM {  };
-    _context.Uniones
+    _context.Uniones?
     .Where(u=>u.Categoria=="personaje")
     .Select(u => new PersonajeIndexVM(u))
     .ToList();

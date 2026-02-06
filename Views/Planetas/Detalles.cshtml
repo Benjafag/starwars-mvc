@@ -1,0 +1,117 @@
+@using StarWars.ViewModels
+@model PlanetaDetallesVM
+
+@{
+  ViewData["Title"] = Model.Nombre;
+}
+
+<div class="sw-page p-3 p-md-4">
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <a asp-controller="Planetas" asp-action="Index"
+       class="btn btn-outline-warning btn-sm sw-btn">
+      ← Volver
+    </a>
+
+    <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
+      Registro Planetario
+    </span>
+  </div>
+
+  <div class="row g-4 align-items-start">
+
+    <!-- Imagen -->
+    <aside class="col-12 col-lg-5">
+      <article class="card sw-card overflow-hidden shadow-sm">
+        <img src="@(Model.Foto ?? "/images/placeholder.png")"
+             alt="Foto de @Model.Nombre"
+             class="w-100"
+             style="aspect-ratio: 1 / 1; object-fit: cover;" />
+      </article>
+
+      <!-- Chips rápidos -->
+      <div class="d-flex flex-wrap gap-2 mt-3">
+        <span class="badge text-bg-dark border border-warning-subtle">@Model.SistemaEstelar</span>
+        <span class="badge text-bg-dark border border-info-subtle">@Model.Region</span>
+        <span class="badge text-bg-warning text-dark">@Model.Tipo</span>
+      </div>
+    </aside>
+
+    <!-- Info -->
+    <section class="col-12 col-lg-7">
+
+      <header class="mb-3">
+        <h1 class="display-6 fw-bold mb-1 sw-title">@Model.Nombre</h1>
+        <p class="text-muted mb-0">Sistema @Model.SistemaEstelar • Región @Model.Region</p>
+      </header>
+
+      <!-- Ficha -->
+      <div class="card sw-card mb-3">
+        <div class="card-body p-4">
+          <h2 class="h6 text-uppercase text-muted mb-3">Ficha</h2>
+
+          <div class="d-flex flex-column gap-2 small">
+
+            <div class="d-flex justify-content-between gap-3">
+              <span class="text-muted">Tipo</span>
+              <span class="sw-field text-end">@Model.Tipo</span>
+            </div>
+
+            @if (!string.IsNullOrWhiteSpace(Model.Clima))
+            {
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Clima</span>
+                <span class="sw-field text-end">@Model.Clima</span>
+              </div>
+            }
+
+            @if (Model.Gravedad.HasValue)
+            {
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Gravedad</span>
+                <span class="sw-field text-end">@Model.Gravedad.Value</span>
+              </div>
+            }
+
+            @if (Model.PoblacionAproximada.HasValue)
+            {
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Población aprox.</span>
+                <span class="sw-field text-end">@Model.PoblacionAproximada.Value.ToString("N0")</span>
+              </div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.Gobierno))
+            {
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Gobierno</span>
+                <span class="sw-field text-end">@Model.Gobierno</span>
+              </div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.Capital))
+            {
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Capital</span>
+                <span class="sw-field text-end">@Model.Capital</span>
+              </div>
+            }
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel extra (opcional) -->
+      <div class="card sw-card">
+        <div class="card-body p-4">
+          <h2 class="h6 text-uppercase text-muted mb-2">Notas</h2>
+          <p class="mb-0 text-muted">
+            Datos cartográficos generados a partir del archivo galáctico.
+          </p>
+        </div>
+      </div>
+
+    </section>
+  </div>
+</div>

@@ -1,0 +1,85 @@
+@using StarWars.ViewModels
+@model List<PlanetaIndexVM>
+
+@{
+  ViewData["Title"] = "Planetas";
+}
+
+<div class="sw-page p-3 p-md-4">
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap align-items-end justify-content-between gap-2 mb-4">
+    <div>
+      <h1 class="display-6 fw-bold sw-title mb-1">Archivo de Planetas</h1>
+      <p class="text-muted mb-0">Registros cartográficos de la galaxia</p>
+    </div>
+
+    <span class="badge text-bg-dark border border-warning-subtle">
+      Total: @(Model?.Count() ?? 0)
+    </span>
+  </div>
+
+  <div class="row g-3">
+
+    @foreach (PlanetaIndexVM planeta in Model)
+    {
+      <div class="col-12 col-md-6 col-lg-4 col-xl-3">
+
+        <a asp-controller="Planetas"
+           asp-action="Detalles"
+           asp-route-id="@planeta.IdPlaneta"
+           class="text-decoration-none text-reset d-block h-100">
+
+          <article class="card sw-card sw-hover h-100 overflow-hidden">
+
+            <!-- Imagen -->
+            <div class="position-relative">
+              <img src="@(planeta.Foto ?? "/images/placeholder.png")"
+                   alt="@planeta.Nombre"
+                   class="w-100"
+                   style="aspect-ratio: 10/10; object-fit: cover;" />
+
+              <div class="sw-holo"></div>
+            </div>
+
+            <!-- Info -->
+            <div class="card-body">
+
+              <h2 class="h6 fw-semibold mb-2 sw-title text-truncate">
+                @planeta.Nombre
+              </h2>
+
+              <div class="d-flex flex-column gap-1 small">
+
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Sistema 🌌</span>
+                  <span class="sw-field text-end">@planeta.SistemaEstelar</span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Región 🧭</span>
+                  <span class="sw-field text-end">@planeta.Region</span>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                  <span class="text-muted">Tipo 🪐</span>
+                  <span class="sw-field text-end">@planeta.Tipo</span>
+                </div>
+
+              </div>
+
+              <div class="mt-2 text-warning small">
+                Ver registro →
+              </div>
+
+            </div>
+
+          </article>
+
+        </a>
+
+      </div>
+    }
+
+  </div>
+</div>
