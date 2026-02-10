@@ -27,39 +27,41 @@
           <a asp-controller="Personajes" asp-action="Detalles" asp-route-id="@personaje.IdPersonaje"
             class="text-decoration-none text-reset d-block h-100">
 
-            <article class="card sw-card sw-hover h-100 text-center overflow-hidden sw-force">
+            <article class="card sw-card sw-hover h-100 text-center overflow-hidden">
 
-              <div class="card-body d-flex flex-column align-items-center pt-4">
+              <div class="position-relative">
 
-                <div class="position-relative mb-3">
-                  <img src="@(personaje.Foto ?? "/images/placeholder.png")" alt="@personaje.Nombre"
-                    class="rounded-circle border shadow-sm sw-avatar-mini"
-                    style="width: 120px; height: 120px; object-fit: cover; object-position: top;" />
+                <img src="@(personaje.Foto ?? "/images/placeholder.webp")" alt="@personaje.Nombre" class="w-100"
+                  style="aspect-ratio: 1 / 1; object-fit: cover; object-position: top;" />
 
-                  <!-- aro glow -->
-                  <span class="sw-ring"></span>
-                </div>
+                <!-- CHIP -->
+                <div class="sw-chip d-flex align-items-center gap-2">
 
-                <h2 class="h6 fw-semibold mb-1 sw-title text-truncate w-100">
-                  @personaje.Nombre
-                </h2>
+                  <img src="@personaje.ImagenPlaneta" alt="@personaje.PlanetaOrigen" class="sw-chip-img" />
 
-                <div class="text-muted small sw-hint">
-                  Ver registro →
+                  <div class="sw-chip-text">
+                    <div class="sw-chip-title">@personaje.PlanetaOrigen</div>
+                    <div class="sw-chip-sub">@personaje.Especie</div>
+                  </div>
+
                 </div>
 
               </div>
 
-              <!-- holograma suave -->
-              <div class="sw-holo"></div>
-
+              <div class="card-body pt-3">
+                <h2 class="h6 fw-semibold mb-0 sw-title text-truncate">
+                  @personaje.Nombre
+                </h2>
+              </div>
             </article>
+
 
           </a>
 
         </div>
       }
-    else {
+    else
+    {
       <h2>No se encontraron registros</h2>
     }
   </div>

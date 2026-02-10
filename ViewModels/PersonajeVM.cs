@@ -7,15 +7,21 @@ namespace StarWars.ViewModels;
 public class PersonajeIndexVM
 {
   public PersonajeIndexVM() {}
-  public PersonajeIndexVM(BusquedaItem u)
+  public PersonajeIndexVM(Personaje p)
   {
-    IdPersonaje = u.Id;
-    Nombre = u.Nombre;
-    Foto = u.Foto;
+    IdPersonaje = p.IdPersonaje;
+    Nombre = p.Nombre;
+    Especie = p.IdEspecieNavigation.Nombre;
+    PlanetaOrigen = p.IdPlanetaOrigenNavigation.Nombre;
+    ImagenPlaneta = p.IdPlanetaOrigenNavigation.Foto ?? "/images/desconocido.webp";
+    Foto = p.Apariciones.OrderBy(ap => ap.Edad).Last().Foto ?? "/images/placeholder.webp";
   }
 
   public int IdPersonaje { get; set; }
   public string Nombre { get; set; } = null!;
+  public string Especie {get;set;} = null!;
+  public string PlanetaOrigen {get;set;} = null!;
+  public string ImagenPlaneta { get; set; } = null!;
   public string? Foto { get; set; }
 }
 

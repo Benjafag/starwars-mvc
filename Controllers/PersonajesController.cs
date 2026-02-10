@@ -19,9 +19,11 @@ public class PersonajesController : Controller
     // from u in _context.Uniones
     // join p in _context.Personajes on u.Id equals p.IdPersonaje
     // select new PersonajeIndexVM {  };
-    _context.Uniones?
-    .Where(u=>u.Categoria=="personaje")
-    .Select(u => new PersonajeIndexVM(u))
+    _context.Personajes?
+    .Include(p => p.IdEspecieNavigation)
+    .Include(p => p.IdPlanetaOrigenNavigation)
+    .Include(p => p.Apariciones)
+    .Select(p => new PersonajeIndexVM(p))
     .ToList();
     return View(res);
   }
