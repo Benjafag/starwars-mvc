@@ -65,7 +65,7 @@ public class PlanetaDetallesVM
         {
           IdPersonaje = personaje.IdPersonaje,
           Nombre = personaje.Nombre,
-          Foto = _context.Apariciones.Where(ap => ap.IdPersonaje == personaje.IdPersonaje).OrderBy(ap => ap.Edad).Last().Foto
+          Foto = _context.Apariciones?.Where(ap => ap.IdPersonaje == personaje.IdPersonaje).OrderBy(ap => ap.Edad).Last().Foto ?? "/images/placeholder.webp"
         });
       }
   }

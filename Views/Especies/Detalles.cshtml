@@ -1,0 +1,156 @@
+@using StarWars.ViewModels
+@model EspecieVM
+
+@{
+  ViewData["Title"] = Model.Nombre;
+}
+
+<div class="sw-page p-3 p-md-4">
+
+  <!-- Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+    <a asp-controller="Especies" asp-action="Index"
+       class="btn btn-outline-warning btn-sm sw-btn">
+      ← Volver
+    </a>
+
+    <span class="badge rounded-pill text-bg-dark border border-warning-subtle">
+      Registro de Especie
+    </span>
+  </div>
+
+  <!-- Top -->
+  <div class="row g-4 align-items-start">
+
+    <!-- Planeta origen -->
+    <aside class="col-12 col-lg-4">
+      <div class="mb-2">
+        <div class="text-muted small text-uppercase mb-1">Planeta de origen</div>
+
+        @if (Model.PlanetaOrigen?.IdPlaneta != null)
+        {
+          <a asp-controller="Planetas" asp-action="Detalles" asp-route-id="@(Model.PlanetaOrigen.IdPlaneta)"
+             class="sw-field sw-underline text-decoration-none text-white">
+            @Model.PlanetaOrigen.NombrePlaneta
+          </a>
+        }
+        else
+        {
+          <span class="sw-field">Desconocido </span>
+        }
+      </div>
+
+      <article class="card sw-card overflow-hidden shadow-sm">
+        <img src="@(Model.PlanetaOrigen?.Foto ?? "/images/desconocido.webp")"
+             alt="Planeta origen de @Model.Nombre"
+             class="w-100"
+             style="aspect-ratio: 1 ; object-fit: cover;" />
+        <div class="sw-holo"></div>
+      </article>
+
+
+    </aside>
+
+    <!-- Info -->
+    <section class="col-12 col-lg-8">
+      <header class="mb-3">
+        <h1 class="display-6 fw-bold mb-1 sw-title">@Model.Nombre</h1>
+        <p class="text-muted mb-0">Archivo biológico galáctico</p>
+      </header>
+
+      <!-- Ficha -->
+      <div class="card sw-card mb-3">
+        <div class="card-body p-4">
+          <h2 class="h6 text-uppercase text-muted mb-3">Ficha</h2>
+
+          <div class="d-flex flex-column gap-2 small">
+
+            @if (Model.EsperanzaDeVida.HasValue)
+            {
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Esperanza de vida</span>
+                <span class="sw-field text-end">@Model.EsperanzaDeVida.Value años</span>
+              </div>
+            }
+
+            @if (Model.AlturaPromedio.HasValue)
+            {
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Altura promedio</span>
+                <span class="sw-field text-end">@Model.AlturaPromedio.Value cm</span>
+              </div>
+            }
+
+            @if (!string.IsNullOrWhiteSpace(Model.Idioma))
+            {
+              <div class="d-flex justify-content-between gap-3">
+                <span class="text-muted">Idioma</span>
+                <span class="sw-field text-end">@Model.Idioma</span>
+              </div>
+            }
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Habilidades -->
+      <div class="card sw-card">
+        <div class="card-body p-4">
+          <h2 class="h6 text-uppercase text-muted mb-2">Habilidades</h2>
+
+          @if (!string.IsNullOrWhiteSpace(Model.Habilidades))
+          {
+            <p class="mb-0" style="white-space: pre-line;">@Model.Habilidades</p>
+          }
+          else
+          {
+            <span class="text-muted">Sin habilidades registradas.</span>
+          }
+        </div>
+      </div>
+
+    </section>
+  </div>
+
+  <hr class="border-warning-subtle my-4" />
+
+  <!-- Personajes -->
+  <section>
+    <div class="d-flex align-items-center justify-content-between mb-2">
+      <h2 class="h5 mb-0 text-warning sw-section-title">Personajes</h2>
+      <span class="text-muted small">@(Model.Personajes?.Count ?? 0)</span>
+    </div>
+
+    @if (Model.Personajes != null && Model.Personajes.Any())
+    {
+      <div class="row g-3">
+        @foreach (var p in Model.Personajes)
+        {
+          <div class="col-6 col-md-4 col-lg-3 col-xl-2">
+            <a asp-controller="Personajes" asp-action="Detalles" asp-route-id="@p.IdPersonaje"
+               class="text-decoration-none text-reset d-block h-100">
+              <article class="card sw-card sw-hover h-100 text-center">
+                <div class="card-body p-3 d-flex flex-column align-items-center">
+                  <img src="@(p.Foto ?? "/images/placeholder.webp")"
+                       alt="@p.Nombre"
+                       class="rounded-circle border shadow-sm mb-2"
+                       style="width: 84px; height: 84px; object-fit: cover; object-position: top;" />
+                  <span class="small fw-semibold text-truncate w-100">@p.Nombre</span>
+                </div>
+              </article>
+            </a>
+          </div>
+        }
+      </div>
+    }
+    else
+    {
+      <div class="card sw-card">
+        <div class="card-body">
+          <span class="text-muted">No hay personajes registrados para esta especie.</span>
+        </div>
+      </div>
+    }
+  </section>
+
+</div>
